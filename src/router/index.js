@@ -7,6 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'index',
+    redirect: { name: 'signin' },
     meta: { layout: 'main' },
     component: () => import('@/views/IndexView.vue'),
   },
