@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useSiteStore } from '@/stores/site.store';
+import authService from '@/modules/auth/services/auth.service';
+import { useCustomToast } from '@/composables/useCustomToast';
 
 const routes = [
   {
@@ -9,15 +11,9 @@ const routes = [
     component: () => import('@/views/IndexView.vue'),
   },
   {
-    path: '/signup',
-    name: 'signup',
-    meta: { layout: 'blank' },
-    component: () => import('@/views/SignUpView.vue'),
-  },
-  {
     path: '/products',
     name: 'products',
-    meta: { layout: 'main' },
+    meta: { layout: 'main', requiresAuth: true },
     component: () => import('@/views/ProductsView.vue'),
   },
   {
@@ -32,6 +28,18 @@ const routes = [
     meta: { layout: 'main' },
     component: () => import('@/views/CartView.vue'),
   },
+  {
+    path: '/signup',
+    name: 'signup',
+    meta: { layout: 'blank' },
+    component: () => import('@/modules/auth/views/SignupView.vue'),
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    meta: { layout: 'blank' },
+    component: () => import('@/modules/auth/views/SigninView.vue'),
+  },
 ];
 
 const router = createRouter({
@@ -39,9 +47,18 @@ const router = createRouter({
   routes,
 });
 
-router.afterEach((to, from, failure) => {
-  const siteStore = useSiteStore();
+router.beforeEach(async (to, from, next) => {
+  const { showToastError, showToastWarn, showToastSucess } = useCustomToast();
 
+  if (to.meta.requiresAuth && !(await authService.getAuthCurrentUser())) {
+    showToastError('Please Sign In');
+    next({ name: 'signin' });
+  } else {
+    next();
+  }
+});
+router.afterEach((to, from, next) => {
+  const siteStore = useSiteStore();
   siteStore.setLayout(to.meta.layout);
 });
 

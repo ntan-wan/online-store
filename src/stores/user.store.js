@@ -21,6 +21,10 @@ export const useUserStore = defineStore('user', () => {
     user.items = filteredItems;
     localStorage.setItem('items', JSON.stringify(user.items));
   }
+  function removeItems() {
+    localStorage.removeItem('items');
+    user.items = [];
+  }
   function addItem(itemInfo) {
     const itemArray = JSON.parse(localStorage.getItem('items'));
     if (itemArray) {
@@ -53,6 +57,7 @@ export const useUserStore = defineStore('user', () => {
     isDuplicateItem,
     addItem,
     removeItem,
+    removeItems,
     createUser,
     getUsers,
     deleteUser,

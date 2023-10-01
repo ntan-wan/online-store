@@ -62,3 +62,16 @@
 .p-toast {
   max-width: 90%;
 }
+
+.avatar-custom {
+  &.p-avatar-circle {
+    position: relative;
+    width: 39px;
+    height: 39px;
+  }
+}
+
+.menu-custom-avatar {
+  position: absolute;
+  // bottom: 0;
+}

@@ -12,9 +12,13 @@ export function useCustomToast() {
     });
   }
 
+  function showToastWarn(msg) {
+    toast.add({ severity: 'warn', summary: 'Warn', detail: msg, life: 3000 });
+  }
+
   function showToastError(msg) {
     toast.add({ severity: 'error', summary: 'Error', detail: msg, life: 3000 });
   }
 
-  return { showToastSuccess, showToastError };
+  return { showToastSuccess, showToastError, showToastWarn };
 }

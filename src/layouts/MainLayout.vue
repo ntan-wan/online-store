@@ -6,6 +6,9 @@ import { usePrimeVue } from 'primevue/config';
 import router from '@/router';
 import { useRoute } from 'vue-router';
 import statusCode from '@/constants/statusCode.constant';
+import utils from '@/utils/index';
+import authService from '@/modules/auth/services/auth.service';
+import { useCustomToast } from '@/composables/useCustomToast';
 
 /* store */
 const userStore = useUserStore();
@@ -14,6 +17,7 @@ const productStore = useProductsStore();
 /* composables */
 const PrimeVue = usePrimeVue();
 const route = useRoute();
+const { showToastSuccess, showToastError } = useCustomToast();
 
 /* variables */
 const currentTheme = ref('bootstrap4-light-purple');
@@ -22,6 +26,23 @@ const menuItems = ref([
     label: 'Categories',
     icon: 'pi pi-fw pi-th-large',
     items: [],
+  },
+]);
+const avatarMenu = ref();
+const avatarMenuItems = ref([
+  {
+    label: 'Sign out',
+    icon: 'pi pi-fw pi-sign-out',
+    command: async () => {
+      const res = await authService.userSignOut();
+      if (res.status == 'success') {
+        showToastSuccess('Sign out successfully');
+        userStore.removeItems();
+        router.push({ name: 'signin' });
+      } else if (res.status == 'fail') {
+        showToastError('Sign out failed');
+      }
+    },
   },
 ]);
 
@@ -36,6 +57,9 @@ onBeforeMount(async () => {
 /* events */
 function onclickLogo() {
   router.push('/products');
+}
+function onClickAvatar(event) {
+  avatarMenu.value.toggle(event);
 }
 function onclickCart() {
   router.push('/cart');
@@ -87,7 +111,7 @@ function categoryMapping(category) {
   for (const name in categories) {
     if (category == name) {
       return {
-        label: category,
+        label: utils.capitalizeFirstLetter(category),
         command: categories[name].command,
       };
     }
@@ -135,6 +159,18 @@ function getItemArrayLength() {
           badgeClass="p-badge-danger"
           outlined
           @click="onclickCart"
+        />
+        <Avatar
+          @click="onClickAvatar"
+          icon="pi pi-user"
+          class="avatar-custom ml-4 cursor-pointer"
+          shape="circle"
+        />
+        <Menu
+          ref="avatarMenu"
+          class="menu-custom-avatar"
+          :model="avatarMenuItems"
+          popup
         />
       </template>
     </Menubar>
