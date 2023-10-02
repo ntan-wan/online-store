@@ -1,4 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {
+  createRouter,
+  createWebHistory,
+  createWebHashHistory,
+} from 'vue-router';
 import { useSiteStore } from '@/stores/site.store';
 import authService from '@/modules/auth/services/auth.service';
 import { useCustomToast } from '@/composables/useCustomToast';
@@ -44,7 +48,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
