@@ -3,8 +3,6 @@
 
 A fake online store for practising purpose.
 
-
-
 ## Run Locally
 
 Clone the project
