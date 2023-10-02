@@ -22,7 +22,7 @@ const siteStore = useSiteStore();
 @import 'primeicons/primeicons.css';
 
 /* primevue */
-// @import 'primevue/resources/themes/bootstrap4-light-purple/theme.css';
+@import 'primevue/resources/themes/bootstrap4-light-purple/theme.css';
 
 /* my custom scss */
 @import '@/scss/style.scss';
