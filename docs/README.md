@@ -4,13 +4,30 @@
 A fake online store for practising purpose.
 
 
-## Installation
 
-Install my-project with yarn
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone
+```
+
+Go to the project directory
 
 ```bash
   cd online-store
-  yarn install
+```
+
+Install dependencies
+
+```bash
+  yarn
+```
+
+Start the server
+
+```bash
   yarn dev
 ```
     
