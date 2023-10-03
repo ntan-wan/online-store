@@ -45,10 +45,10 @@ const routes = [
     meta: { layout: 'blank' },
     component: () => import('@/modules/auth/views/SigninView.vue'),
   },
-  {
-    path: '/online-store/',
-    component: () => import('@/views/test.vue'),
-  },
+  // {
+  //   path: '/online-store/',
+  //   component: () => import('@/views/test.vue'),
+  // },
 ];
 
 const router = createRouter({
