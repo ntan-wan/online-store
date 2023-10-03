@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: import.meta.env.PROD ? '/online-store/' : '/',
+  base: process.env.NODE_ENV == 'production' ? '/online-store/' : '/',
   // base: '/online-store/',
   plugins: [vue()],
   server: {
