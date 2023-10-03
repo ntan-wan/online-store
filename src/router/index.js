@@ -45,6 +45,12 @@ const routes = [
     meta: { layout: 'blank' },
     component: () => import('@/modules/auth/views/SigninView.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    meta: { layout: 'blank' },
+    component: () => import('@/views/NotFoundView.vue'),
+  },
 ];
 
 const router = createRouter({
