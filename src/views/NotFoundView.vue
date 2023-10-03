@@ -12,6 +12,6 @@
   background-repeat: no-repeat;
   min-height: 100vh;
   padding: 3rem;
-  background-position: 50% 400%;
+  background-position: 50% 100%;
 }
 </style>
