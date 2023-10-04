@@ -17,16 +17,15 @@ const btnIsLoading = ref(false);
 /* events */
 async function onSubmit() {
   btnIsLoading.value = true;
-  const res = await authService.signInWithEmail(
-    signinUser.email,
-    signinUser.password
-  );
-  if (res.status == 'success') {
-    showToastSuccess('Sign In Successfully');
-    router.push({ name: 'products' });
-  } else if (res.status == 'fail') {
-    showToastError(res.error);
-  }
+  const res = await authService
+    .signInWithEmail(signinUser.email, signinUser.password)
+    .then((res) => {
+      showToastSuccess('Sign In Successfully');
+      router.push({ name: 'products' });
+    })
+    .catch((err) => {
+      showToastError(err);
+    });
   btnIsLoading.value = false;
 }
 </script>

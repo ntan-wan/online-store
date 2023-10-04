@@ -6,6 +6,16 @@ import {
   signOut,
 } from 'firebase/auth';
 
+const errors = {
+  'auth/email-already-in-use': 'Email already exist',
+  'auth/invalid-email': 'Invalid Email',
+  'auth/missing-email': 'Missing Email',
+  'auth/invalid-password': 'Invalid Password',
+  'auth/missing-password': 'Missing Password',
+  'auth/weak-password': 'Password should be at least 6 characters',
+  'auth/invalid-login-credentials': 'Incorrect email or password',
+};
+
 async function signUpWithEmail(email, password) {
   const auth = getAuth();
 
@@ -13,17 +23,17 @@ async function signUpWithEmail(email, password) {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log('[auth res]\n', user);
-      return {
-        status: 'success',
-        data: user,
-      };
+      return user;
     })
-    .catch((error) => {
-      console.log('[auth err]\n', error.customData);
-      return {
-        status: 'fail',
-        error: error.code,
-      };
+    .catch((err) => {
+      console.log('[auth err]\n', err.customData);
+      for (let errorCode in errors) {
+        if (err.code == errorCode) {
+          throw new Error(errors[errorCode]);
+        }
+      }
+
+      throw new Error(err);
     });
 }
 async function signInWithEmail(email, password) {
@@ -32,16 +42,15 @@ async function signInWithEmail(email, password) {
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      return {
-        status: 'success',
-        data: user,
-      };
+      return user;
     })
-    .catch((error) => {
-      return {
-        status: 'fail',
-        error: error.code,
-      };
+    .catch((err) => {
+      for (let errorCode in errors) {
+        if (err.code == errorCode) {
+          throw new Error(errors[errorCode]);
+        }
+      }
+      throw new Error(err);
     });
 }
 
@@ -69,9 +78,7 @@ async function userSignOut() {
     })
     .catch((error) => {
       console.log('[sign out err\n]', error);
-      return {
-        status: 'fail',
-      };
+      throw new Error(error);
     });
 }
 

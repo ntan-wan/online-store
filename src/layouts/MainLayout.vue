@@ -34,14 +34,16 @@ const avatarMenuItems = ref([
     label: 'Sign out',
     icon: 'pi pi-fw pi-sign-out',
     command: async () => {
-      const res = await authService.userSignOut();
-      if (res.status == 'success') {
-        showToastSuccess('Sign out successfully');
-        userStore.removeItems();
-        router.push({ name: 'signin' });
-      } else if (res.status == 'fail') {
-        showToastError('Sign out failed');
-      }
+      const res = await authService
+        .userSignOut()
+        .then((res) => {
+          showToastSuccess('Sign out successfully');
+          userStore.removeItems();
+          router.push({ name: 'signin' });
+        })
+        .catch((err) => {
+          showToastError(err);
+        });
     },
   },
 ]);
