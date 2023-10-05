@@ -63,7 +63,6 @@ function onClickProduct(productId) {
 <template>
   <div class="view-products">
     <div class="grid ml-0 mr-0 grid-gutter-custom">
-      <!-- <template v-if="!products.length"> -->
       <template v-if="productStore.getIsLoading">
         <div v-for="i in 12" :key="i" class="col-12 sm:col-6 md:col-4 lg:col-3">
           <Card>
